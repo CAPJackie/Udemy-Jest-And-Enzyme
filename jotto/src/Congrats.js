@@ -3,7 +3,7 @@ import { CONGRATULATIONS_MESSAGE } from "./utils";
 
 const Congrats = ({ success }) => {
   return (
-    <div data-test="congrats-component">
+    <div data-test="congrats-component" className="alert alert-success">
       {success && (
         <span data-test="congrats-message">{CONGRATULATIONS_MESSAGE}</span>
       )}
