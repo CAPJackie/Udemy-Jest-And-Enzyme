@@ -13,6 +13,7 @@ const setup = (props = {}) => {
 describe("<Input />", () => {
   let wrapper;
   beforeEach(() => {
+    setCurrentGuessMock.mockClear();
     jest.spyOn(React, "useState").mockReturnValue(["", setCurrentGuessMock]);
     wrapper = setup();
   });
@@ -29,6 +30,12 @@ describe("<Input />", () => {
     const inputText = findByTestAttr(wrapper, "input-box");
     inputText.simulate("change", { target: { value: "Apple" } });
     //Expect setCurrentGuessMock being called everytime the input changes
-    expect(setCurrentGuessMock).toHaveBeenCalled();
+    expect(setCurrentGuessMock).toHaveBeenCalledWith("Apple");
+  });
+
+  test("It resets the currentGuess when user clicks the button", () => {
+    const button = findByTestAttr(wrapper, "submit-button");
+    button.simulate("click", { preventDefault: () => {} });
+    expect(setCurrentGuessMock).toHaveBeenCalledWith("");
   });
 });

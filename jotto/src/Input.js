@@ -19,7 +19,10 @@ export const Input = ({ secretWord }) => {
         <button
           data-test="submit-button"
           onClick={(e) => {
+            // TODO: Update guessedWords global state
+            // TODO: Check against secretWord and optionally update success global state
             e.preventDefault();
+            setCurrentGuess("");
           }}
           className="btn btn-primary mb-2"
         >
