@@ -9,11 +9,18 @@ const setup = (props = {}) => {
 };
 
 describe("<Congrats />", () => {
-  test("renders without error", () => {
-    jest.spyOn(React, "useContext").mockReturnValue({ success: false });
+  test("renders without error when success is true", () => {
+    jest.spyOn(React, "useContext").mockReturnValue({ success: true });
     const wrapper = setup();
     const congratsComponent = findByTestAttr(wrapper, "congrats-component");
     expect(congratsComponent.length).toBe(1);
+  });
+
+  test("Do not renders container when success is true", () => {
+    jest.spyOn(React, "useContext").mockReturnValue({ success: false });
+    const wrapper = setup();
+    const congratsComponent = findByTestAttr(wrapper, "congrats-component");
+    expect(congratsComponent.exists()).toBe(false);
   });
 
   test("renders no text when success prop is false", () => {
