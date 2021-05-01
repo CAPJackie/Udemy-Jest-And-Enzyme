@@ -1,6 +1,10 @@
 import Proptypes from "prop-types";
 import React from "react";
-import { BODY_HEADERS, GUESSED_WORDS_TITLE, INSTRUCTIONS_GUESS } from "./utils";
+import {
+  BODY_HEADERS,
+  GUESSED_WORDS_TITLE,
+  INSTRUCTIONS_GUESS,
+} from "../../utils";
 
 const GuessedWords = ({ guessedWords }) => {
   return (

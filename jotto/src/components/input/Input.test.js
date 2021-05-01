@@ -1,12 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { findByTestAttr, checkProps } from "../test/testUtils";
+import { findByTestAttr, checkProps } from "../../../test/testUtils";
 import { Input } from "./Input";
 
 const setCurrentGuessMock = jest.fn();
+const toggleSuccess = jest.fn();
 
 const setup = (props = {}) => {
-  const defaultProps = { secretWord: "", ...props };
+  const defaultProps = { secretWord: "Table", ...props };
   return shallow(<Input {...defaultProps} />);
 };
 
@@ -14,7 +15,11 @@ describe("<Input />", () => {
   let wrapper;
   beforeEach(() => {
     setCurrentGuessMock.mockClear();
+    toggleSuccess.mockClear();
     jest.spyOn(React, "useState").mockReturnValue(["", setCurrentGuessMock]);
+    jest
+      .spyOn(React, "useContext")
+      .mockReturnValue({ success: false, toggleSuccess });
     wrapper = setup();
   });
   test("It should render successfully", () => {

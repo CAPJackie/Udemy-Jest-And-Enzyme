@@ -1,7 +1,9 @@
-import PropTypes from "prop-types";
-import { CONGRATULATIONS_MESSAGE } from "./utils";
+import React from "react";
+import { CONGRATULATIONS_MESSAGE } from "../../utils";
+import { AppContext } from "../app/App.context";
 
-const Congrats = ({ success }) => {
+const Congrats = () => {
+  const { success } = React.useContext(AppContext);
   return (
     <div data-test="congrats-component" className="alert alert-success">
       {success && (
@@ -9,10 +11,6 @@ const Congrats = ({ success }) => {
       )}
     </div>
   );
-};
-
-Congrats.propTypes = {
-  success: PropTypes.bool.isRequired,
 };
 
 export default Congrats;
