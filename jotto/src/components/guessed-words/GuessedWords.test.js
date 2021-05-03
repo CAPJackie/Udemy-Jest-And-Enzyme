@@ -1,6 +1,6 @@
 import React from "react";
 import GuessedWords from "./GuessedWords";
-import { findByTestAttr, checkProps } from "../../../test/testUtils";
+import { findByTestAttr } from "../../../test/testUtils";
 import { shallow } from "enzyme";
 
 const defaultProps = {
@@ -11,10 +11,6 @@ const setup = (props = {}) => {
   const setupProps = { ...defaultProps, ...props };
   return shallow(<GuessedWords {...setupProps} />);
 };
-
-test("Do not throw warning with excepted props", () => {
-  checkProps(GuessedWords, defaultProps);
-});
 
 describe("If there are no words guessed", () => {
   let wrapper;

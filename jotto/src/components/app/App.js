@@ -8,7 +8,10 @@ import { appReducer, appInitialState } from "./App.reducer";
 import React from "react";
 
 const App = () => {
-  const [{ success }, dispatch] = React.useReducer(appReducer, appInitialState);
+  const [{ success, guessedWords, secretWord }, dispatch] = React.useReducer(
+    appReducer,
+    appInitialState
+  );
 
   const toggleSuccess = (success) => {
     dispatch({ type: Actions.toggleSuccess, success });
@@ -18,14 +21,12 @@ const App = () => {
     toggleSuccess,
   };
   return (
-    <AppContext.Provider value={contextValue}>
+    <AppContext.Provider value={contextValue} data-test="component-app">
       <div className="container">
         <h1>Jotto </h1>
         <Congrats />
-        <GuessedWords
-          guessedWords={[{ guessedWord: "train", letterMatchCount: 3 }]}
-        />
-        <Input secretWord="Word" />
+        <GuessedWords guessedWords={guessedWords} />
+        <Input secretWord={secretWord} />
       </div>
     </AppContext.Provider>
   );

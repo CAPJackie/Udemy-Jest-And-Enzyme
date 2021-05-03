@@ -1,6 +1,6 @@
-import React from "react";
 import { shallow } from "enzyme";
-import { findByTestAttr, checkProps } from "../../../test/testUtils";
+import React from "react";
+import { findByTestAttr } from "../../../test/testUtils";
 import { Input } from "./Input";
 
 const setCurrentGuessMock = jest.fn();
@@ -25,9 +25,6 @@ describe("<Input />", () => {
   test("It should render successfully", () => {
     const inputContainer = findByTestAttr(wrapper, "input-container");
     expect(inputContainer.length).toBe(1);
-  });
-  test("does not throw warning with expected prop", () => {
-    checkProps(Input, { secretWord: "apple" });
   });
 
   test("It changes input component state when user types something", () => {

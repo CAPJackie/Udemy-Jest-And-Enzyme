@@ -1,4 +1,3 @@
-import Proptypes from "prop-types";
 import React from "react";
 import {
   BODY_HEADERS,
@@ -6,7 +5,7 @@ import {
   INSTRUCTIONS_GUESS,
 } from "../../utils";
 
-const GuessedWords = ({ guessedWords }) => {
+const GuessedWords = ({ guessedWords = [] }) => {
   return (
     <div data-test="component-guessed-words">
       {guessedWords.length ? (
@@ -34,15 +33,6 @@ const GuessedWords = ({ guessedWords }) => {
       )}
     </div>
   );
-};
-
-GuessedWords.propTypes = {
-  guessedWords: Proptypes.arrayOf(
-    Proptypes.shape({
-      guessedWord: Proptypes.string.isRequired,
-      letterMatchCount: Proptypes.number.isRequired,
-    })
-  ).isRequired,
 };
 
 export default GuessedWords;

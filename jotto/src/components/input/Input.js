@@ -1,8 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { AppContext } from "../app/App.context";
 
-export const Input = ({ secretWord }) => {
+export const Input = ({ secretWord = "" }) => {
   const [currentGuess, setCurrentGuess] = React.useState("");
   const { success, toggleSuccess } = React.useContext(AppContext);
   return (
@@ -38,8 +37,4 @@ export const Input = ({ secretWord }) => {
       </div>
     )
   );
-};
-
-Input.propTypes = {
-  secretWord: PropTypes.string.isRequired,
 };
