@@ -13,20 +13,35 @@ const App = () => {
     appInitialState
   );
 
-  const toggleSuccess = (success) => {
+  const toggleSuccess = React.useCallback((success) => {
     dispatch({ type: Actions.toggleSuccess, success });
-  };
-  const contextValue = {
-    success,
-    toggleSuccess,
-  };
+  }, []);
+
+  const addGuessedWord = React.useCallback((guessedWord) => {
+    dispatch({
+      type: Actions.addGuessedWord,
+      guessedWord,
+    });
+  }, []);
+
+  const contextValue = React.useMemo(
+    () => ({
+      success,
+      toggleSuccess,
+      guessedWords,
+      addGuessedWord,
+      secretWord,
+    }),
+    [success, toggleSuccess, guessedWords, addGuessedWord, secretWord]
+  );
+
   return (
     <AppContext.Provider value={contextValue} data-test="component-app">
       <div className="container">
         <h1>Jotto </h1>
         <Congrats />
-        <GuessedWords guessedWords={guessedWords} />
-        <Input secretWord={secretWord} />
+        <GuessedWords />
+        <Input />
       </div>
     </AppContext.Provider>
   );

@@ -5,10 +5,10 @@ import { Input } from "./Input";
 
 const setCurrentGuessMock = jest.fn();
 const toggleSuccess = jest.fn();
+const addGuessedWord = jest.fn();
 
-const setup = (props = {}) => {
-  const defaultProps = { secretWord: "Table", ...props };
-  return shallow(<Input {...defaultProps} />);
+const setup = () => {
+  return shallow(<Input />);
 };
 
 describe("<Input />", () => {
@@ -16,10 +16,15 @@ describe("<Input />", () => {
   beforeEach(() => {
     setCurrentGuessMock.mockClear();
     toggleSuccess.mockClear();
-    jest.spyOn(React, "useState").mockReturnValue(["", setCurrentGuessMock]);
     jest
-      .spyOn(React, "useContext")
-      .mockReturnValue({ success: false, toggleSuccess });
+      .spyOn(React, "useState")
+      .mockReturnValue(["Test", setCurrentGuessMock]);
+    jest.spyOn(React, "useContext").mockReturnValue({
+      success: false,
+      toggleSuccess,
+      secretWord: "Table",
+      addGuessedWord,
+    });
     wrapper = setup();
   });
   test("It should render successfully", () => {
@@ -39,5 +44,25 @@ describe("<Input />", () => {
     const button = findByTestAttr(wrapper, "submit-button");
     button.simulate("click", { preventDefault: () => {} });
     expect(setCurrentGuessMock).toHaveBeenCalledWith("");
+  });
+  test("Adds the guessed word to the table when currentGuess is not empty", () => {
+    const button = findByTestAttr(wrapper, "submit-button");
+    button.simulate("click", { preventDefault: () => {} });
+    expect(addGuessedWord).toHaveBeenCalledWith("Test");
+  });
+  test("Do not add guessed word to the table when the input field is empty", () => {
+    //TODO: Refactor code
+    jest.spyOn(React, "useState").mockReturnValue(["", setCurrentGuessMock]);
+    jest.spyOn(React, "useContext").mockReturnValue({
+      success: false,
+      toggleSuccess,
+      secretWord: "Table",
+      addGuessedWord,
+    });
+    wrapper = setup();
+
+    const button = findByTestAttr(wrapper, "submit-button");
+    button.simulate("click", { preventDefault: () => {} });
+    expect(addGuessedWord).not.toHaveBeenCalled();
   });
 });

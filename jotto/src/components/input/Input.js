@@ -1,9 +1,15 @@
 import React from "react";
 import { AppContext } from "../app/App.context";
 
-export const Input = ({ secretWord = "" }) => {
+export const Input = () => {
   const [currentGuess, setCurrentGuess] = React.useState("");
-  const { success, toggleSuccess } = React.useContext(AppContext);
+  const {
+    success,
+    toggleSuccess,
+    secretWord,
+    addGuessedWord,
+  } = React.useContext(AppContext);
+
   return (
     !success && (
       <div data-test="input-container">
@@ -21,13 +27,15 @@ export const Input = ({ secretWord = "" }) => {
           <button
             data-test="submit-button"
             onClick={(e) => {
-              // TODO: Update guessedWords global state
-              // TODO: Check against secretWord and optionally update success global state
-
               e.preventDefault();
+              const curGuess = currentGuess;
+              if (Boolean(curGuess)) {
+                addGuessedWord(curGuess);
+              }
+              if (success !== (curGuess === secretWord)) {
+                toggleSuccess(curGuess === secretWord);
+              }
               setCurrentGuess("");
-              if (success !== (currentGuess === secretWord))
-                toggleSuccess(currentGuess === secretWord);
             }}
             className="btn btn-primary mb-2"
           >

@@ -3,13 +3,9 @@ import GuessedWords from "./GuessedWords";
 import { findByTestAttr } from "../../../test/testUtils";
 import { shallow } from "enzyme";
 
-const defaultProps = {
-  guessedWords: [{ guessedWord: "train", letterMatchCount: 3 }],
-};
-
-const setup = (props = {}) => {
-  const setupProps = { ...defaultProps, ...props };
-  return shallow(<GuessedWords {...setupProps} />);
+const setup = (context) => {
+  jest.spyOn(React, "useContext").mockReturnValue(context);
+  return shallow(<GuessedWords />);
 };
 
 describe("If there are no words guessed", () => {

@@ -4,8 +4,10 @@ import {
   GUESSED_WORDS_TITLE,
   INSTRUCTIONS_GUESS,
 } from "../../utils";
+import { AppContext } from "../app/App.context";
 
-const GuessedWords = ({ guessedWords = [] }) => {
+const GuessedWords = () => {
+  const { guessedWords } = React.useContext(AppContext);
   return (
     <div data-test="component-guessed-words">
       {guessedWords.length ? (
@@ -19,8 +21,8 @@ const GuessedWords = ({ guessedWords = [] }) => {
               </tr>
             </thead>
             <tbody>
-              {guessedWords.map(({ guessedWord, letterMatchCount }) => (
-                <tr key={guessedWord} data-test="guessed-word">
+              {guessedWords.map(({ guessedWord, letterMatchCount }, index) => (
+                <tr key={index} data-test="guessed-word">
                   <td>{guessedWord}</td>
                   <td>{letterMatchCount}</td>
                 </tr>

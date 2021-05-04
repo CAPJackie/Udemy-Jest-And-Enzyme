@@ -1,2 +1,3 @@
 export const toggleSuccess = "TOGGLE_SUCCESS";
-export const AppActions = { toggleSuccess };
+export const addGuessedWord = "ADD_GUESSED_WORD";
+export const AppActions = { toggleSuccess, addGuessedWord };

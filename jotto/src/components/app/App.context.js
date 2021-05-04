@@ -3,7 +3,7 @@ import { createContext } from "react";
 const INITIAL_CONTEXT_VALUE = {
   success: false,
   toggleSuccess: () => {},
-  secretWord: "",
+  secretWord: "Pineapple",
   changeSecretWord: () => {},
   guessedWords: [],
   addGuessedWord: () => {},
