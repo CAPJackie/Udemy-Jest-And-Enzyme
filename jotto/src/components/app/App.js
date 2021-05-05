@@ -1,11 +1,12 @@
 import { AppContext } from "./App.context";
-import "./App.css";
 import Congrats from "../congrats/Congrats";
 import GuessedWords from "../guessed-words/GuessedWords";
 import { Input } from "../input/Input";
 import { AppActions as Actions } from "./App.actions";
 import { appReducer, appInitialState } from "./App.reducer";
 import React from "react";
+import { getSecretWord } from "../../Actions";
+import "./App.css";
 
 const App = () => {
   const [{ success, guessedWords, secretWord }, dispatch] = React.useReducer(
@@ -22,6 +23,10 @@ const App = () => {
       type: Actions.addGuessedWord,
       guessedWord,
     });
+  }, []);
+
+  React.useEffect(() => {
+    getSecretWord();
   }, []);
 
   const contextValue = React.useMemo(

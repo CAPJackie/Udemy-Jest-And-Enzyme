@@ -22,6 +22,15 @@ export const appReducer = (state, action) => {
           ),
         }),
       };
+    // case getNewSecretWord:
+    // // getSecretWord().then(({ response }) => {
+    // //   return {
+    // //     ...state,
+    // //     secretWord: response,
+    // //   };
+    // // });
+    // // return;
+
     default:
       return { ...state };
   }
