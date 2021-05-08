@@ -1,3 +1,4 @@
+import React from "react";
 import App from "./App";
 import { findByTestAttr } from "../../../test/testUtils";
 import { mount } from "enzyme";
@@ -7,23 +8,50 @@ jest.mock("../../Actions");
 // eslint-disable-next-line import/first
 import { getSecretWord as mockGetSecretWord } from "../../Actions";
 
+const dispatch = jest.fn();
+
 const setup = () => {
   // Using mount instead of shallow because shallow do not trigger useEffect
   return mount(<App />);
 };
 
-// TODO: Figure out why this is failing
-describe.skip("<App />", () => {
-  test("Renders without error", () => {
-    const wrapper = setup();
+describe.each([
+  [null, true, false],
+  ["Party", false, true],
+])("Renders with secretWord as %s", (secretWord, loadingShows, appShows) => {
+  let wrapper;
+  beforeEach(() => {
+    jest
+      .spyOn(React, "useReducer")
+      .mockReturnValue([
+        { success: false, guessedWords: [], secretWord },
+        dispatch,
+      ]);
+
+    wrapper = setup();
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  test(`Renders loading spinner: ${loadingShows}`, () => {
+    const spinner = findByTestAttr(wrapper, "spinner");
+    expect(spinner.exists()).toBe(loadingShows);
+  });
+  test(`Renders app: ${appShows}`, () => {
     const appComponent = findByTestAttr(wrapper, "component-app");
-    expect(appComponent).toHaveLength(1);
+    expect(appComponent.exists()).toBe(appShows);
   });
 });
 
 describe("Get secret Word", () => {
   beforeEach(() => {
     mockGetSecretWord.mockClear();
+    jest
+      .spyOn(React, "useReducer")
+      .mockReturnValue([
+        { success: false, guessedWords: [], secretWord: "Test" },
+        dispatch,
+      ]);
   });
   test("getSecretWord on app mount", () => {
     setup();

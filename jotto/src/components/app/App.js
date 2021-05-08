@@ -25,9 +25,16 @@ const App = () => {
     });
   }, []);
 
-  React.useEffect(() => {
-    getSecretWord();
+  const setSecretWord = React.useCallback((secretWord) => {
+    dispatch({
+      type: Actions.setSecretWord,
+      secretWord,
+    });
   }, []);
+
+  React.useEffect(() => {
+    getSecretWord(setSecretWord);
+  }, [setSecretWord]);
 
   const contextValue = React.useMemo(
     () => ({
@@ -40,15 +47,22 @@ const App = () => {
     [success, toggleSuccess, guessedWords, addGuessedWord, secretWord]
   );
 
-  return (
-    <AppContext.Provider value={contextValue} data-test="component-app">
-      <div className="container">
+  return Boolean(secretWord) ? (
+    <AppContext.Provider value={contextValue}>
+      <div className="container" data-test="component-app">
         <h1>Jotto </h1>
         <Congrats />
         <GuessedWords />
         <Input />
       </div>
     </AppContext.Provider>
+  ) : (
+    <div className="container" data-test="spinner">
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
+      <p>Loading secret word...</p>
+    </div>
   );
 };
 

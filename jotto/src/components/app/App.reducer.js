@@ -1,10 +1,10 @@
 import { getLetterMatchCount } from "../../helpers";
-import { addGuessedWord, toggleSuccess } from "./App.actions";
+import { addGuessedWord, setSecretWord, toggleSuccess } from "./App.actions";
 
 export const appInitialState = {
   success: false,
   guessedWords: [],
-  secretWord: "Pineapple",
+  secretWord: null,
 };
 
 export const appReducer = (state, action) => {
@@ -22,14 +22,8 @@ export const appReducer = (state, action) => {
           ),
         }),
       };
-    // case getNewSecretWord:
-    // // getSecretWord().then(({ response }) => {
-    // //   return {
-    // //     ...state,
-    // //     secretWord: response,
-    // //   };
-    // // });
-    // // return;
+    case setSecretWord:
+      return { ...state, secretWord: action.secretWord };
 
     default:
       return { ...state };

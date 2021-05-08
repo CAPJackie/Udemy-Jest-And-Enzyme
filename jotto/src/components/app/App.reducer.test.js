@@ -1,4 +1,4 @@
-import { addGuessedWord, toggleSuccess, getNewSecretWord } from "./App.actions";
+import { addGuessedWord, toggleSuccess, setSecretWord } from "./App.actions";
 import { appReducer } from "./App.reducer";
 
 describe("appReducer", () => {
@@ -29,12 +29,22 @@ describe("appReducer", () => {
     expect(result).toStrictEqual(expectedResult);
   });
 
-  test.skip("getSecretWord", () => {
+  test("setSecretWord", () => {
     const result = appReducer(
-      { success: false, guessedWords: [], secretWord: "" },
-      { type: getNewSecretWord }
+      {
+        success: false,
+        guessedWords: [],
+        secretWord: "",
+      },
+      { secretWord: "Table", type: setSecretWord }
     );
 
-    expect(result.secretWord.length).toBeGreaterThan(0);
+    const expectedResult = {
+      success: false,
+      guessedWords: [],
+      secretWord: "Table",
+    };
+
+    expect(result).toStrictEqual(expectedResult);
   });
 });
