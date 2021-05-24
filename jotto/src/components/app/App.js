@@ -7,12 +7,11 @@ import { appReducer, appInitialState } from "./App.reducer";
 import React from "react";
 import { getSecretWord } from "../../Actions";
 import "./App.css";
+import { LanguageContext } from "../language-picker/languagePicker.context";
 
 const App = () => {
-  const [{ success, guessedWords, secretWord }, dispatch] = React.useReducer(
-    appReducer,
-    appInitialState
-  );
+  const [{ success, guessedWords, secretWord, language }, dispatch] =
+    React.useReducer(appReducer, appInitialState);
 
   const toggleSuccess = React.useCallback((success) => {
     dispatch({ type: Actions.toggleSuccess, success });
@@ -32,9 +31,21 @@ const App = () => {
     });
   }, []);
 
+  const setLanguage = React.useCallback((language) => {
+    dispatch({ type: Actions.setLanguage, language });
+  }, []);
+
   React.useEffect(() => {
     getSecretWord(setSecretWord);
   }, [setSecretWord]);
+
+  const languageContext = React.useMemo(
+    () => ({
+      language,
+      setLanguage,
+    }),
+    [language, setLanguage]
+  );
 
   const contextValue = React.useMemo(
     () => ({
@@ -47,22 +58,26 @@ const App = () => {
     [success, toggleSuccess, guessedWords, addGuessedWord, secretWord]
   );
 
-  return Boolean(secretWord) ? (
-    <AppContext.Provider value={contextValue}>
-      <div className="container" data-test="component-app">
-        <h1>Jotto </h1>
-        <Congrats />
-        <GuessedWords />
-        <Input />
-      </div>
-    </AppContext.Provider>
-  ) : (
-    <div className="container" data-test="spinner">
-      <div className="spinner-border" role="status">
-        <span className="sr-only">Loading...</span>
-      </div>
-      <p>Loading secret word...</p>
-    </div>
+  return (
+    <LanguageContext.Provider value={languageContext}>
+      {Boolean(secretWord) ? (
+        <AppContext.Provider value={contextValue}>
+          <div className="container" data-test="component-app">
+            <h1>Jotto </h1>
+            <Congrats />
+            <GuessedWords />
+            <Input />
+          </div>
+        </AppContext.Provider>
+      ) : (
+        <div className="container" data-test="spinner">
+          <div className="spinner-border" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <p>Loading secret word...</p>
+        </div>
+      )}
+    </LanguageContext.Provider>
   );
 };
 

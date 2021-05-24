@@ -1,12 +1,20 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { mount } from "enzyme";
 import { findByTestAttr } from "../../../test/testUtils";
+import { Languages } from "../../helpers/strings";
+import { AppContext } from "../app/App.context";
+import { LanguageContext } from "../language-picker/languagePicker.context";
 import Congrats from "./Congrats";
 
-const setup = (context = { success: true }) => {
-  jest.spyOn(React, "useContext").mockReturnValue(context);
-  return shallow(<Congrats />);
-};
+const setup = (context = { success: true, language: Languages.en }) =>
+  mount(
+    <LanguageContext.Provider value={{ language: context.language }}>
+      <AppContext.Provider value={{ success: context.success }}>
+        <Congrats />
+        );
+      </AppContext.Provider>
+    </LanguageContext.Provider>
+  );
 
 describe("<Congrats />", () => {
   test("renders without error when success is true", () => {

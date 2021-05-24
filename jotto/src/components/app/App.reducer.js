@@ -1,10 +1,17 @@
 import { getLetterMatchCount } from "../../helpers";
-import { addGuessedWord, setSecretWord, toggleSuccess } from "./App.actions";
+import { Languages } from "../../helpers/strings";
+import {
+  addGuessedWord,
+  setLanguage,
+  setSecretWord,
+  toggleSuccess,
+} from "./App.actions";
 
 export const appInitialState = {
   success: false,
   guessedWords: [],
   secretWord: null,
+  language: Languages.en,
 };
 
 export const appReducer = (state, action) => {
@@ -25,6 +32,8 @@ export const appReducer = (state, action) => {
     case setSecretWord:
       return { ...state, secretWord: action.secretWord };
 
+    case setLanguage:
+      return { ...state, language: action.language };
     default:
       return { ...state };
   }
