@@ -1,12 +1,22 @@
+import { mount } from "enzyme";
 import React from "react";
-import GuessedWords from "./GuessedWords";
 import { findByTestAttr } from "../../../test/testUtils";
-import { shallow } from "enzyme";
+import { Languages } from "../../helpers/strings";
+import { AppContext } from "../app/App.context";
+import { LanguageContext } from "../language-picker/languagePicker.context";
+import GuessedWords from "./GuessedWords";
 
-const setup = (context) => {
-  jest.spyOn(React, "useContext").mockReturnValue(context);
-  return shallow(<GuessedWords />);
+const setup = (context = { guessedWords: [], language: Languages.en }) => {
+  return mount(
+    <LanguageContext.Provider value={{ language: context.language }}>
+      <AppContext.Provider value={{ guessedWords: context.guessedWords }}>
+        <GuessedWords />
+      </AppContext.Provider>
+    </LanguageContext.Provider>
+  );
 };
+
+// TODO: languagePicker tests
 
 describe("If there are no words guessed", () => {
   let wrapper;

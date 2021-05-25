@@ -1,12 +1,13 @@
-import React from "react";
-import App from "./App";
-import { findByTestAttr } from "../../../test/testUtils";
 import { mount } from "enzyme";
+import React from "react";
+import { findByTestAttr } from "../../../test/testUtils";
+// eslint-disable-next-line import/first
+import { getSecretWord as mockGetSecretWord } from "../../Actions";
+import { Languages } from "../../helpers/strings";
+import App from "./App";
 
 //Activate global mock to make sure getSecretWord doen't make network call
 jest.mock("../../Actions");
-// eslint-disable-next-line import/first
-import { getSecretWord as mockGetSecretWord } from "../../Actions";
 
 const dispatch = jest.fn();
 
@@ -21,12 +22,15 @@ describe.each([
 ])("Renders with secretWord as %s", (secretWord, loadingShows, appShows) => {
   let wrapper;
   beforeEach(() => {
-    jest
-      .spyOn(React, "useReducer")
-      .mockReturnValue([
-        { success: false, guessedWords: [], secretWord },
-        dispatch,
-      ]);
+    jest.spyOn(React, "useReducer").mockReturnValue([
+      {
+        success: false,
+        guessedWords: [],
+        secretWord,
+        language: Languages.en,
+      },
+      dispatch,
+    ]);
 
     wrapper = setup();
   });

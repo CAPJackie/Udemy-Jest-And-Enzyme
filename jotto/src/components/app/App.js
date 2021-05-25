@@ -8,6 +8,7 @@ import React from "react";
 import { getSecretWord } from "../../Actions";
 import "./App.css";
 import { LanguageContext } from "../language-picker/languagePicker.context";
+import LanguagePicker from "../language-picker/languagePicker";
 
 const App = () => {
   const [{ success, guessedWords, secretWord, language }, dispatch] =
@@ -64,6 +65,7 @@ const App = () => {
         <AppContext.Provider value={contextValue}>
           <div className="container" data-test="component-app">
             <h1>Jotto </h1>
+            <LanguagePicker setLanguage={setLanguage} />
             <Congrats />
             <GuessedWords />
             <Input />
